@@ -16,11 +16,10 @@ let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let currentPage = 1;
 
 btnSearch.addEventListener('click', onSearch);
+const PER_PAGE = 40;
 
 async function fetchImages(value, page) {
-  const PER_PAGE = 40;
-
-  const params = new URLSearchParams({
+    const params = new URLSearchParams({
     q: value,
     key: KEY,
     image_type: 'photo',
@@ -66,17 +65,24 @@ async function onSearch(e) {
 
 loadMoreBtn.addEventListener('click', onLoadMoreClick);
 
+
 async function onLoadMoreClick(e) {
   currentPage++;
     const inputValue = input.value.trim();
-    loadMoreBtn.hidden = true;
-
+  loadMoreBtn.hidden = true;
+    
   try {
     const imageCount = await fetchImages(inputValue, currentPage);
+    const totalPages = Math.ceil(imageCount.totalHits / PER_PAGE);
     createMarkup(imageCount.hits);
     gallerySimpleLightbox.refresh();
       // Notiflix.Notify.success(`Hooray! We found ${imageCount.totalHits} images.`);
-      loadMoreBtn.hidden = false;
+    loadMoreBtn.hidden = false;
+    if (currentPage === totalPages) {
+      loadMoreBtn.hidden = true;
+      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+    }
+      
   } catch (error) {
     // Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
   }
