@@ -74,10 +74,10 @@ async function onLoadMoreClick(e) {
     const imageCount = await fetchImages(inputValue, currentPage);
     createMarkup(imageCount.hits);
     gallerySimpleLightbox.refresh();
-      Notiflix.Notify.success(`Hooray! We found ${imageCount.totalHits} images.`);
+      // Notiflix.Notify.success(`Hooray! We found ${imageCount.totalHits} images.`);
       loadMoreBtn.hidden = false;
   } catch (error) {
-    Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+    // Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
   }
 }
 
@@ -99,7 +99,7 @@ function createMarkup(images) {
     </div>`;
     })
     .join('');
-  gallery.innerHTML += markup;
+  gallery.insertAdjacentHTML("beforeend", markup);
 }
 
 function cleanGallery() {
