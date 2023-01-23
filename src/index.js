@@ -36,6 +36,7 @@ async function fetchImages(value, page) {
 
 async function onSearch(e) {
   e.preventDefault();
+  currentPage = 1;
   const inputValue = input.value.trim();
 
   try {
@@ -107,3 +108,4 @@ function cleanGallery() {
     currentPage = 1;
     loadMoreBtn.hidden = true;
 }
+
